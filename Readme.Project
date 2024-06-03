@@ -1,0 +1,138 @@
+# Snake Game
+
+🚀 *Building a Classic Snake Game with Python and Pygame!* 🐍🎮
+
+I'm excited to share a project I recently worked on: a classic Snake game built using Python and Pygame. The objective is to control a snake to collect food, which makes it grow longer, while avoiding collisions with the walls or itself. Here’s a quick breakdown of the code:
+
+## 1. Initialization
+The game starts by initializing Pygame and setting up an 800x600 window titled "Snake Game".
+
+python
+import pygame
+import random
+
+pygame.init()
+
+window_width = 800
+window_height = 600
+window = pygame.display.set_mode((window_width, window_height))
+pygame.display.set_caption("Snake Game")
+
+
+## 2. Defining Colors
+RGB values are defined for the snake, food, and other elements.
+
+python
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+
+
+## 3. Setting Up the Snake and Food
+The snake’s size, position, speed, and direction are initialized. The food is placed randomly.
+
+python
+snake_size = 10
+snake_x = window_width // 2
+snake_y = window_height // 2
+snake_speed = 15
+snake_body = [(snake_x, snake_y)]
+snake_direction = (1, 0)
+
+food_x = random.randrange(0, window_width - snake_size, snake_size)
+food_y = random.randrange(0, window_height - snake_size, snake_size)
+
+
+## 4. Game Clock and Font
+The game clock controls speed, and the font displays the score.
+
+python
+clock = pygame.time.Clock()
+font = pygame.font.Font(None, 36)
+
+
+## 5. Game Loop
+The main loop handles events, updates the snake's position, checks for collisions, and updates the display.
+
+python
+game_over = False
+while not game_over:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            game_over = True
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT and snake_direction != (1, 0):
+                snake_direction = (-1, 0)
+            elif event.key == pygame.K_RIGHT and snake_direction != (-1, 0):
+                snake_direction = (1, 0)
+            elif event.key == pygame.K_UP and snake_direction != (0, 1):
+                snake_direction = (0, -1)
+            elif event.key == pygame.K_DOWN and snake_direction != (0, -1):
+                snake_direction = (0, 1)
+
+    snake_x += snake_direction[0] * snake_size
+    snake_y += snake_direction[1] * snake_size
+
+    snake_body.insert(0, (snake_x, snake_y))
+    if snake_x == food_x and snake_y == food_y:
+        food_x = random.randrange(0, window_width - snake_size, snake_size)
+        food_y = random.randrange(0, window_height - snake_size, snake_size)
+    else:
+        snake_body.pop()
+
+    if (snake_x < 0 or snake_x >= window_width or
+            snake_y < 0 or snake_y >= window_height or
+            (snake_x, snake_y) in snake_body[1:]):
+        game_over = True
+
+    window.fill(BLACK)
+    for segment in snake_body:
+        pygame.draw.rect(window, GREEN, (segment[0], segment[1], snake_size, snake_size))
+    pygame.draw.rect(window, RED, (food_x, food_y, snake_size, snake_size))
+
+    score = len(snake_body) - 1
+    score_text = font.render(f"Score: {score}", True, YELLOW)
+    window.blit(score_text, (10, 10))
+
+    pygame.draw.rect(window, BLUE, (0, 0, window_width, window_height), 5)
+
+    pygame.display.update()
+    clock.tick(snake_speed)
+
+pygame.quit()
+
+
+## Conclusion
+This project was a fun and educational experience, enhancing my understanding of game development with Pygame. Big thanks to [Internpay](https://www.internpay.com) for their guidance during my internship!
+
+Feel free to try it out and let me know your thoughts! Happy coding! 🖥🐍
+
+## How to Run the Game
+1. Ensure you have Python and Pygame installed on your system.
+2. Save the script in a .py file.
+3. Run the script using a Python interpreter.
+
+bash
+python snake_game.py
+
+
+## Requirements
+- Python 3.x
+- Pygame
+
+You can install Pygame using pip:
+bash
+pip install pygame
+
+
+## License
+This project is open-source and available under the MIT License.
+
+## Acknowledgements
+Thanks to Internpay for their support and guidance!
+
+---
+
+#Python #Pygame #GameDevelopment #Coding #Programming #Tech #Internpay
